@@ -1,0 +1,114 @@
+openapi: 3.0.2
+info:
+    title: SiT Mentorship Service API
+    version: '1.0'
+
+components:
+  securitySchemes:
+    BearerAuth:
+      type: http
+      scheme: bearer
+      bearerFormat: JWT
+
+  schemas:
+    CreateUserPayload:
+      type: object
+      properties:
+        firstName:
+          type: string
+          example: Shiirwaac
+        lastName:
+          type: string
+          example: Faarax
+        gender:
+          type: string
+          enum: [Male, Female, Prefer not to specify ]
+        type:
+          type: string
+          enum: [Mentor, Mentee]
+          example: Mentor
+        emailAddress:
+          type: string
+          example: shiirwaac.faarax@google.com
+        country:
+          type: string
+          example: United Kingdom
+        about:
+          type: string
+          example: An experienced tech professional wanting to help those just getting started in their tech journey.
+        photoUrl:
+          type: string
+          example: www.google.com/a-photo-url
+      required:
+        - firstName
+        - lastName
+        - gender
+        - type
+        - emailAddress
+        - country
+        - about
+        - photoUrl
+
+    UserResponse:
+      type: object
+      properties:
+        firstName:
+          type: string
+          example: Shiirwaac
+        lastName:
+          type: string
+          example: Faarax
+        gender:
+          type: string
+          enum: [Male, Female, Prefer not to specify]
+        type:
+          type: string
+          enum: [Mentor, Mentee]
+          example: Mentor
+        emailAddress:
+          type: string
+          example: shiirwaac.faarax@google.com
+        country:
+          type: string
+          example: United Kingdom
+        about:
+          type: string
+          example: An experienced tech professional wanting to help those just getting started in their tech journey.
+        photoUrl:
+          type: string
+          example: www.google.com/a-photo-url
+      required:
+        - firstName
+        - lastName
+        - gender
+        - type
+        - emailAddress
+        - country
+        - about
+        - photoUrl
+
+paths:
+  /users/{userId}:
+    put:
+      summary: Upserts a user
+      description: Creates or updates a user and their information
+      tags:
+        - users
+      security:
+      - BearerAuth: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/CreateUserPayload"
+      responses:
+        200:
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/UserResponse"
+servers:
+  - description: Production API
+    url: https://europe-west3-sit-mentorship-platform.cloudfunctions.net ## TBC
